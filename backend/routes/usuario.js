@@ -33,10 +33,14 @@ router.post('/cadastro', async (req, res) => {
       usuario: { id: result.insertId, nome, email }
     });
   } catch (error) {
+    console.error('Erro cadastro:', error);
     if (error.code === 'ER_DUP_ENTRY') {
       return res.status(400).json({ erro: 'Este e-mail já está cadastrado.' });
     }
-    res.status(500).json({ erro: 'Erro ao cadastrar usuário.' });
+    if (error.code === 'ECONNREFUSED') {
+      return res.status(503).json({ erro: 'Banco de dados indisponível.' });
+    }
+    res.status(500).json({ erro: error.message || 'Erro ao cadastrar usuário.' });
   }
 });
 

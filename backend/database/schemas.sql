@@ -2,7 +2,7 @@
        DEFAULT CHARACTER SET utf8mb4
        DEFAULT COLLATE utf8mb4_unicode_ci;
     
-    USE `Mercado_bBlack`;
+    USE `Mercado_Black`;
 
  -- Tabela de Usuarios (para login e cadastro)
  CREATE TABLE IF NOT EXISTS `usuarios` ( 
@@ -30,8 +30,21 @@
     FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL
 );
 
- -- Ìndices para melhorar buscas
+ -- Tabela de Refresh Tokens (para JWT - renovação e revogação)
+ CREATE TABLE IF NOT EXISTS `refresh_tokens` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `usuario_id` INT NOT NULL,
+    `token` VARCHAR(500) NOT NULL UNIQUE,
+    `expira_em` DATETIME NOT NULL,
+    `criado_em` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `revogado` BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`) ON DELETE CASCADE
+ );
+
+ -- Índices para melhorar buscas
  CREATE INDEX idx_usuarios_email ON `usuarios`(`email`);
- CREATE INDEX idx_produtos_nome ON `prodotos`(`categoria`)
+ CREATE INDEX idx_produtos_nome ON `produtos`(`categoria_id`);
+ CREATE INDEX idx_refresh_tokens_token ON `refresh_tokens`(`token`);
+ CREATE INDEX idx_refresh_tokens_usuario ON `refresh_tokens`(`usuario_id`);
 
  
