@@ -93,7 +93,7 @@ function Login() {
           </ButtonPrimary>
           <p className="text-sm text-muted-foreground">
             Não tem conta?{' '}
-            <Link to="/cadastro" className="text-primary hover:underline font-medium">
+            <Link to="/cadastrar" className="text-primary hover:underline font-medium">
               Cadastre-se
             </Link>
           </p>

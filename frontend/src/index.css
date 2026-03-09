@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes marquee-parceiros {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-parceiros {
+  animation: marquee-parceiros 25s linear infinite;
+}
+
 @layer base {
   .theme {
     --font-sans: Roboto, sans-serif;

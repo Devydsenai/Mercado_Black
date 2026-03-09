@@ -103,7 +103,7 @@ function Cadastro() {
           </ButtonPrimary>
           <p className="text-sm text-muted-foreground">
             Já tem conta?{' '}
-            <Link to="/login" className="text-primary hover:underline font-medium">
+            <Link to="/entrar" className="text-primary hover:underline font-medium">
               Faça login
             </Link>
           </p>

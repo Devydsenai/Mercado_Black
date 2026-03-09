@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './authContext.js'
+import { useLocale } from './LocaleContext.jsx'
 import { api } from '@/services/api.js'
 
 const TOKEN_KEY = 'mercado-black-token'
@@ -8,6 +9,7 @@ const USER_KEY = 'mercado-black-user'
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate()
+  const { t } = useLocale()
   const [user, setUser] = useState(() => {
     try {
       const u = localStorage.getItem(USER_KEY)
@@ -40,7 +42,7 @@ export function AuthProvider({ children }) {
 
   async function cadastro(nome, email, senha, telefone) {
     await api.cadastro(nome, email, senha, telefone)
-    navigate('/login', { state: { sucesso: 'Cadastrado com sucesso! Faça login para continuar.' } })
+    navigate('/entrar', { state: { sucesso: t.successRegister } })
   }
 
   return (
