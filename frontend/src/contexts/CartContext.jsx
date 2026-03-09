@@ -1,3 +1,4 @@
+/** CartContext - Carrinho persistente em localStorage */
 import { createContext, useContext, useState, useCallback } from 'react'
 
 const CartContext = createContext(null)

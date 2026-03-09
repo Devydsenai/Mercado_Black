@@ -1,3 +1,7 @@
+/**
+ * Mercado Black - Entry point
+ * Providers: Locale, Clerk, Theme, Auth, Address, Cart, Products
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'

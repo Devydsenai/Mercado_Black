@@ -1,3 +1,10 @@
+/**
+ * Rotas de produtos: CRUD
+ * Listar: GET /api/produtos
+ * Criar: POST /api/produtos (auth)
+ * Atualizar: PUT /api/produtos/:id (auth)
+ * Excluir: DELETE /api/produtos/:id (auth)
+ */
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import db from '../config/db.js';

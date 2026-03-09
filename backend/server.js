@@ -1,3 +1,7 @@
+/**
+ * Mercado Black API - Express + MySQL
+ * Rotas: /api/usuarios (login, cadastro), /api/produtos (CRUD)
+ */
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';

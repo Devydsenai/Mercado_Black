@@ -1,3 +1,8 @@
+/**
+ * Rotas de usuário: login, cadastro
+ * Login: POST /api/usuarios/login → token JWT
+ * Cadastro: POST /api/usuarios/cadastro
+ */
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

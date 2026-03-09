@@ -1,3 +1,7 @@
+/**
+ * App - Layout principal, header, rotas e footer
+ * Auth: Clerk OU custom (MySQL). Rotas protegidas via ProtectedRoute.
+ */
 import { Routes, Route, Navigate, Link, useNavigate } from 'react-router-dom'
 import { UserButton, useUser } from '@clerk/react'
 import { useAuth } from '@/contexts/useAuth.js'

@@ -1,6 +1,6 @@
 /**
- * Componentes de layout usando Tailwind (design system centralizado em index.css)
- * Cores e tema definidos em :root --lilac e tailwind.config.js
+ * Componentes de layout - Design system Tailwind
+ * Cores e tema: :root em index.css, tailwind.config.js
  */
 
 export function PageWrapper({ children, className = '', ...props }) {
@@ -24,5 +24,3 @@ export function LoadingSpinner({ className = '', ...props }) {
     />
   )
 }
-
-export { BreadcrumbNavContainer } from './breadcrumbNav.js/styled.jsx'

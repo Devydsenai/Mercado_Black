@@ -1,3 +1,4 @@
+/** ProductsContext - Produtos cadastrados localmente (fallback quando sem token) */
 import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 
 const STORAGE_KEY = 'mercadoblack_produtos_cadastrados'

@@ -1,3 +1,4 @@
+/** AuthProvider - Login via API (MySQL), token e user em localStorage */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './authContext.js'
