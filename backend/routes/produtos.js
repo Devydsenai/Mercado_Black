@@ -56,18 +56,30 @@ router.get('/:id', async (req, res) => {
 // Criar produto (requer autenticação)
 router.post('/', verificarToken, async (req, res) => {
   try {
-    const { nome, descricao, preco, estoque, categoria_id, imagem } = req.body;
+    const body = req.body || {};
+    const { nome, descricao, preco, estoque, categoria_id, imagem } = body;
 
-    if (!nome || !preco) {
-      return res.status(400).json({ erro: 'Nome e preço são obrigatórios.' });
+    if (Object.keys(body).length === 0) {
+      return res.status(400).json({ erro: 'Corpo da requisição vazio. Envie nome, preco, etc.' });
+    }
+
+    const nomeValido = nome != null && String(nome).trim();
+    const precoNum = Number(preco);
+    const precoValido = !isNaN(precoNum) && precoNum >= 0;
+
+    if (!nomeValido) {
+      return res.status(400).json({ erro: 'Nome do produto é obrigatório.' });
+    }
+    if (!precoValido) {
+      return res.status(400).json({ erro: 'Preço deve ser um número válido (0 ou maior).' });
     }
 
     const [result] = await db.execute(
       'INSERT INTO produtos (nome, descricao, preco, estoque, categoria_id, imagem, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
-        nome,
-        descricao || null,
-        preco,
+        nomeValido.trim(),
+        (descricao && String(descricao).trim()) || null,
+        precoNum,
         estoque ?? 0,
         categoria_id || null,
         imagem || null,

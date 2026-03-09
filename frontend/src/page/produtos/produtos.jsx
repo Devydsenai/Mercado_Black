@@ -77,7 +77,9 @@ function Produtos() {
       try {
         const dados = await api.listarProdutos()
         const arr = Array.isArray(dados) ? dados : []
-        const completa = arr.length >= 6 ? arr : [...arr, ...PRODUTOS_DEMO].slice(0, 6)
+        const idsApi = new Set(arr.map((p) => p.id))
+        const demoSemDuplicata = PRODUTOS_DEMO.filter((p) => !idsApi.has(p.id))
+        const completa = arr.length >= 6 ? arr : [...arr, ...demoSemDuplicata].slice(0, 6)
         setProdutos(completa)
       } catch {
         setProdutos(PRODUTOS_DEMO)
@@ -89,9 +91,14 @@ function Produtos() {
   }, [])
 
   const lista = useMemo(() => {
-    const idsCadastrados = new Set(produtosCadastrados.map((p) => p.id))
-    const daApi = produtos.filter((p) => !idsCadastrados.has(p.id))
-    const todos = [...produtosCadastrados, ...daApi]
+    const idsVistos = new Set()
+    const todos = []
+    for (const p of [...produtosCadastrados, ...produtos]) {
+      const id = p.id
+      if (idsVistos.has(id)) continue
+      idsVistos.add(id)
+      todos.push(p)
+    }
     if (!termoBusca) return todos
     return todos.filter((p) => {
       const nome = (p.nome || '').toLowerCase()
@@ -179,3 +186,8 @@ function Produtos() {
 }
 
 export default Produtos
+
+
+//VITE_CLERK_PUBLISHABLE_KEY=pk_test_aGlwLXN1bmJpcmQtNDEuY2xlcmsuYWNjb3VudHMuZGV2JA
+//VITE_CLERK_PUBLISHABLE_KEY=pk_test_aGlwLXN1bmJpcmQtNDEuY2xlcmsuYWNjb3VudHMuZGV2JA
+//VITE_MERCADOPAGO_PUBLIC_KEY=APP_USR-fd33f38e-4e2d-4033-b4e1-68d7dda2a77d

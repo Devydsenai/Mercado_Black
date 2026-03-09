@@ -3,18 +3,20 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 async function request(endpoint, options = {}) {
   const url = `${API_URL}${endpoint}`
   const config = {
+    ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...(options.headers || {}),
     },
-    ...options,
   }
 
   const res = await fetch(url, config)
   const data = await res.json().catch(() => ({}))
 
   if (!res.ok) {
-    throw new Error(data.erro || 'Erro na requisição')
+    const msg = data?.erro || `Erro na requisição (${res.status})`
+    console.error('[API]', res.status, url, data)
+    throw new Error(msg)
   }
 
   return data

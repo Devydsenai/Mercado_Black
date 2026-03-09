@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '@/contexts/useAuth.js'
 import { useProducts } from '@/contexts/ProductsContext.jsx'
+import { api } from '@/services/api.js'
 
 function CadastrarProduto() {
+  const { token } = useAuth()
   const { addProduct } = useProducts()
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [erro, setErro] = useState('')
   const [form, setForm] = useState({
     nome: '',
     descricao: '',
@@ -15,27 +20,51 @@ function CadastrarProduto() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
+    setErro('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!form.nome.trim()) {
-      alert('Preencha o nome do produto.')
+      setErro('Preencha o nome do produto.')
       return
     }
     const preco = parseFloat(String(form.preco).replace(',', '.'))
     if (isNaN(preco) || preco < 0) {
-      alert('Preencha um preço válido.')
+      setErro('Preencha um preço válido.')
       return
     }
-    addProduct({
-      nome: form.nome.trim(),
-      descricao: form.descricao.trim(),
-      preco,
-      imagem: form.imagem.trim(),
-    })
-    setForm({ nome: '', descricao: '', preco: '', imagem: '' })
-    navigate('/produtos')
+
+    setLoading(true)
+    setErro('')
+
+    try {
+      if (token) {
+        await api.criarProduto(
+          {
+            nome: form.nome.trim(),
+            descricao: form.descricao?.trim() || null,
+            preco: Number(preco),
+            imagem: form.imagem?.trim() || null,
+            estoque: 0,
+          },
+          token
+        )
+      } else {
+        addProduct({
+          nome: form.nome.trim(),
+          descricao: form.descricao.trim(),
+          preco,
+          imagem: form.imagem.trim(),
+        })
+      }
+      setForm({ nome: '', descricao: '', preco: '', imagem: '' })
+      navigate('/produtos')
+    } catch (err) {
+      setErro(err.message || 'Erro ao cadastrar produto. Verifique se o backend está rodando e o banco configurado.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -48,6 +77,19 @@ function CadastrarProduto() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 bg-card border border-border rounded-xl p-6">
+        {token && (
+          <p className="text-sm text-green-600 dark:text-green-400 font-medium">
+            ✓ Produto será salvo no banco de dados MySQL
+          </p>
+        )}
+        {!token && (
+          <p className="text-sm text-amber-600 dark:text-amber-400">
+            Faça login com e-mail e senha para salvar no banco MySQL. Com Clerk, o produto é salvo localmente.
+          </p>
+        )}
+        {erro && (
+          <p className="text-sm text-destructive font-medium">{erro}</p>
+        )}
         <div>
           <label className="block text-sm font-medium text-foreground mb-1.5">Nome do produto</label>
           <input
@@ -120,9 +162,10 @@ function CadastrarProduto() {
 
         <button
           type="submit"
-          className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+          disabled={loading}
+          className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
         >
-          Cadastrar e ir para Produtos
+          {loading ? 'Cadastrando...' : 'Cadastrar e ir para Produtos'}
         </button>
       </form>
     </div>

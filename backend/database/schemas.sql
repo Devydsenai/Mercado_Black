@@ -23,7 +23,7 @@
     `preco` DECIMAL(10, 2) NOT NULL,
     `estoque` INT DEFAULT 0,
     `categoria_id` VARCHAR(80),
-    `imagem` VARCHAR(255),
+    `imagem` VARCHAR(500) COMMENT 'URL da imagem do produto',
     `usuario_id` INT,
     `data_cadastro` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `ativo` BOOLEAN DEFAULT TRUE,
