@@ -1,0 +1,38 @@
+direction right
+
+Visitante [icon: user, color: gray]
+Cliente [icon: user, color: blue]
+
+Mercado_Black [label: "Mercado Black", color: "#1a1a2e"] {
+  Autenticacao [label: "Autenticação", color: green] {
+    UC1 [label: "Entrar / Login"]
+    UC2 [label: "Cadastrar"]
+    UC3 [label: "Sair"]
+  }
+  Produtos [label: "Produtos", color: orange] {
+    UC4 [label: "Listar Produtos"]
+    UC5 [label: "Buscar Produtos"]
+    UC6 [label: "Cadastrar Produto"]
+    UC7 [label: "Ver Detalhes do Produto"]
+  }
+  Compra [label: "Compra", color: red] {
+    UC8 [label: "Adicionar ao Carrinho"]
+    UC9 [label: "Gerenciar Carrinho"]
+    UC10 [label: "Finalizar Compra"]
+  }
+  Perfil [label: "Perfil", color: purple] {
+    UC11 [label: "Ver Minha Conta"]
+    UC12 [label: "Configurações"]
+  }
+  Institucional [label: "Institucional", color: teal] {
+    UC13 [label: "Consultar CEP"]
+    UC14 [label: "Ver Sobre"]
+    UC15 [label: "Ver Afiliados"]
+  }
+  Interface [label: "Interface", color: gray] {
+    UC16 [label: "Alternar Tema"]
+  }
+}
+
+Visitante > UC1, UC2, UC14, UC15
+Cliente > UC3, UC4, UC5, UC6, UC7, UC8, UC9, UC10, UC11, UC12, UC13, UC16
